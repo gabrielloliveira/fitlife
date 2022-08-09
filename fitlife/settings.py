@@ -103,6 +103,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "core.User"
+LOGIN_URL = "core:login"
+LOGIN_REDIRECT_URL = "core:home"
 
 
 # Internationalization

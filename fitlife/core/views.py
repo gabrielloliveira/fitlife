@@ -1,3 +1,5 @@
+from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 
-# Create your views here.
+
+index = LoginView.as_view(template_name="core/login.html", redirect_authenticated_user=True)
