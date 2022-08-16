@@ -11,4 +11,5 @@ urlpatterns = [
     path("home/", views.home, name="home"),
     path("equipe/", views.collaborators, name="collaborators"),
     path("equipe/adicionar/", views.add_collaborator, name="add-collaborator"),
+    path("equipe/<uuid:uuid>/deletar/", views.delete_collaborator, name="delete-collaborator"),
 ]
