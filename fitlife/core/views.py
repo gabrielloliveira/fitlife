@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from fitlife.core.forms import UserForm
+from fitlife.core.models import User
 
 login = LoginView.as_view(template_name="core/login.html", redirect_authenticated_user=True)
 logout = LogoutView.as_view()
@@ -19,7 +20,9 @@ def home(request):
 
 @login_required
 def collaborators(request):
-    context = {"form": UserForm()}
+    context = {
+        "form": UserForm(),
+        "users": User.objects.filter(type__in=["owner", "trainer"])}
     return render(request, "core/collaborators.html", context=context)
 
 
