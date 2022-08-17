@@ -129,7 +129,7 @@
                         <div class="modal-footer">
                           <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar
                           </button>
-                          <form role="form text-left" action="{% url 'core:delete-collaborator' user.uuid %}"
+                          <form role="form text-left" action="{% url 'core:delete-student' user.uuid %}"
                                 method="post">
                             {% csrf_token %}
                             <button class="btn bg-gradient-danger">Deletar</button>

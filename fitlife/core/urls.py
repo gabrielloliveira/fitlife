@@ -16,4 +16,5 @@ urlpatterns = [
     path("alunos/", views.students, name="students"),
     path("alunos/adicionar/", views.add_student, name="add-student"),
     path("alunos/<uuid:uuid>/editar/", views.edit_student, name="edit-student"),
+    path("alunos/<uuid:uuid>/deletar/", views.delete_student, name="delete-student"),
 ]

@@ -104,3 +104,12 @@ def edit_student(request, uuid):
 
     messages.success(request, "Aluno editado com sucesso.")
     return HttpResponseRedirect(reverse("core:students"))
+
+
+@require_POST
+@login_required
+def delete_student(request, uuid):
+    user = get_object_or_404(User, uuid=uuid)
+    user.delete()
+    messages.success(request, "Aluno deletado com sucesso.")
+    return HttpResponseRedirect(reverse("core:students"))
