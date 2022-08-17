@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
-from fitlife.core.forms import UserForm
+from fitlife.core.forms import UserForm, StudentForm
 from fitlife.core.models import User
 
 login = LoginView.as_view(template_name="core/login.html", redirect_authenticated_user=True)
@@ -61,3 +61,25 @@ def delete_collaborator(request, uuid):
     user.delete()
     messages.success(request, "Funcionário deletado com sucesso.")
     return HttpResponseRedirect(reverse("core:collaborators"))
+
+
+@login_required
+def students(request):
+    context = {
+        "form": StudentForm(),
+        "users": User.objects.only_students(),
+    }
+    return render(request, "core/students.html", context=context)
+
+
+@require_POST
+@login_required
+def add_student(request):
+    form = StudentForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Aluno cadastrado com sucesso.")
+    else:
+        print(form.errors)
+        messages.error(request, "Erro ao cadastrar aluno.", extra_tags="danger")
+    return HttpResponseRedirect(reverse("core:students"))

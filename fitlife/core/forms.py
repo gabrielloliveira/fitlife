@@ -36,6 +36,11 @@ class StudentForm(UserForm):
         model = User
         fields = ("name", "email", "password")
 
+    def __init__(self, *args, **kwargs):
+        super(StudentForm, self).__init__(*args, **kwargs)
+        self.fields["type"].required = False
+
     def save(self, commit=True):
-        self.cleaned_data["type"] = User.TYPE_TRAINER
-        return super(StudentForm, self).save(commit=commit)
+        user = super(StudentForm, self).save(commit=commit)
+        user.type = User.TYPE_STUDENT
+        user.save()

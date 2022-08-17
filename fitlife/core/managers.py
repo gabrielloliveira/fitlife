@@ -6,6 +6,9 @@ class UserQuerySet(models.QuerySet):
     def exclude_students(self):
         return self.exclude(type=self.model.TYPE_STUDENT)
 
+    def only_students(self):
+        return self.filter(type=self.model.TYPE_STUDENT)
+
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -43,3 +46,6 @@ class UserManager(BaseUserManager):
 
     def exclude_students(self):
         return self.get_queryset().exclude_students()
+
+    def only_students(self):
+        return self.get_queryset().only_students()

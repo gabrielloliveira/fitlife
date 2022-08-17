@@ -1,3 +1,4 @@
+import datetime
 import uuid
 
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -44,3 +45,9 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def last_entry(self):
+        if self.type != self.TYPE_STUDENT:
+            return None
+        return datetime.date.today()
