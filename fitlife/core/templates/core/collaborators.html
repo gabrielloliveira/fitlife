@@ -101,8 +101,10 @@
                       <span class="text-secondary text-xs font-weight-bold">{{ user.created_at }}</span>
                     </td>
                     <td class="align-middle">
-                      <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-info" data-toggle="tooltip"
-                         data-original-title="Edit user">
+                      <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-info"
+                         data-toggle="tooltip"
+                         data-original-title="Edit user"
+                         data-bs-toggle="modal" data-bs-target="#editModal-{{ user.uuid }}">
                         Editar
                       </a>
                       <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-danger"
@@ -132,7 +134,8 @@
                         <div class="modal-footer">
                           <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar
                           </button>
-                          <form role="form text-left" action="{% url 'core:delete-collaborator' user.uuid %}" method="post">
+                          <form role="form text-left" action="{% url 'core:delete-collaborator' user.uuid %}"
+                                method="post">
                             {% csrf_token %}
                             <button class="btn bg-gradient-danger">Deletar</button>
                           </form>
@@ -140,6 +143,61 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- Modal Delete-->
+                  <div class="modal fade" id="editModal-{{ user.uuid }}" tabindex="-1" role="dialog"
+                       aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Edição de <strong>{{ user.name }}</strong></h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form role="form text-left" action="{% url 'core:edit-collaborator' user.uuid %}" method="post">
+                          {% csrf_token %}
+
+                          <div class="modal-body">
+                            <label>{{ form.name.label }}</label>
+                            <div class="input-group mb-3">
+                              {% render_field form.name class="form-control" value=user.name placeholder="Digite o nome" %}
+                            </div>
+
+                            <label>{{ form.email.label }}</label>
+                            <div class="input-group mb-3">
+                              {% render_field form.email class="form-control" value=user.email placeholder="Digite o e-mail" %}
+                            </div>
+
+                            <label>{{ form.password.label }}</label>
+                            <div class="input-group mb-3">
+                              {% render_field form.password class="form-control" placeholder="Digite a nova senha" type="password" %}
+                            </div>
+
+                            <label>{{ form.type.label }}</label>
+                            <div class="input-group mb-3">
+                              <select class="form-control" id="exampleFormControlSelect1" name="type">
+                                {% for x,y in form.fields.type.choices %}
+                                  <option value="{{ x }}" {% if x == user.type %}selected{% endif %}>{{ y }}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
+                            <button class="btn bg-gradient-info">Editar</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+
+
                 {% endfor %}
                 </tbody>
               </table>
@@ -178,7 +236,7 @@
 
                 <label>{{ form.password.label }}</label>
                 <div class="input-group mb-3">
-                  {{ form.password|add_class:'form-control'|attr:'placeholder:Digite a senha'|attr:'type:password' }}
+                  {{ form.password|add_class:'form-control'|attr:'placeholder:Digite a senha'|attr:'type:password'|attr:'required' }}
                 </div>
 
                 <label>{{ form.type.label }}</label>

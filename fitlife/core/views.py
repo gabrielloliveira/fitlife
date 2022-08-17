@@ -20,7 +20,10 @@ def home(request):
 
 @login_required
 def collaborators(request):
-    context = {"form": UserForm(), "users": User.objects.filter(type__in=["owner", "trainer"])}
+    context = {
+        "form": UserForm(initial={"type": "owner"}),
+        "users": User.objects.exclude_students(),
+    }
     return render(request, "core/collaborators.html", context=context)
 
 
@@ -32,7 +35,22 @@ def add_collaborator(request):
         form.save()
         messages.success(request, "Funcionário cadastrado com sucesso.")
     else:
+        print(form.errors)
         messages.error(request, "Erro ao cadastrar funcionário.", extra_tags="danger")
+    return HttpResponseRedirect(reverse("core:collaborators"))
+
+
+@require_POST
+@login_required
+def edit_collaborator(request, uuid):
+    instance = get_object_or_404(User, uuid=uuid)
+    form = UserForm(request.POST, instance=instance)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Funcionário editado com sucesso.")
+    else:
+        print(form.errors)
+        messages.error(request, "Erro ao editar funcionário.", extra_tags="danger")
     return HttpResponseRedirect(reverse("core:collaborators"))
 
 
@@ -41,5 +59,5 @@ def add_collaborator(request):
 def delete_collaborator(request, uuid):
     user = get_object_or_404(User, uuid=uuid)
     user.delete()
-    messages.success(request, "Usuário deletado com sucesso.")
+    messages.success(request, "Funcionário deletado com sucesso.")
     return HttpResponseRedirect(reverse("core:collaborators"))

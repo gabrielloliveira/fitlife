@@ -1,8 +1,17 @@
 from django.contrib.auth.base_user import BaseUserManager
+from django.db import models
+
+
+class UserQuerySet(models.QuerySet):
+    def exclude_students(self):
+        return self.exclude(type=self.model.TYPE_STUDENT)
 
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
+
+    def get_queryset(self):
+        return UserQuerySet(self.model, using=self.db)
 
     def _create_user(self, email, password, **extra_fields):
         """
@@ -31,3 +40,6 @@ class UserManager(BaseUserManager):
             raise ValueError("Superuser must have is_staff=True.")
 
         return self._create_user(email, password, **extra_fields)
+
+    def exclude_students(self):
+        return self.get_queryset().exclude_students()
