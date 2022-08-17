@@ -50,4 +50,5 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     def last_entry(self):
         if self.type != self.TYPE_STUDENT:
             return None
-        return datetime.date.today()
+        last_frequency = self.frequency_set.order_by("-date_start").first()
+        return last_frequency.date_start if last_frequency else "-"
