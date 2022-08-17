@@ -44,13 +44,17 @@ def add_collaborator(request):
 @login_required
 def edit_collaborator(request, uuid):
     instance = get_object_or_404(User, uuid=uuid)
-    form = UserForm(request.POST, instance=instance)
-    if form.is_valid():
-        form.save()
-        messages.success(request, "Funcionário editado com sucesso.")
-    else:
-        print(form.errors)
-        messages.error(request, "Erro ao editar funcionário.", extra_tags="danger")
+
+    instance.name = request.POST["name"]
+    instance.email = request.POST["email"]
+    instance.type = request.POST["type"]
+
+    if request.POST["password"]:
+        instance.set_password(request.POST["password"])
+
+    instance.save()
+
+    messages.success(request, "Funcionário editado com sucesso.")
     return HttpResponseRedirect(reverse("core:collaborators"))
 
 
@@ -82,4 +86,21 @@ def add_student(request):
     else:
         print(form.errors)
         messages.error(request, "Erro ao cadastrar aluno.", extra_tags="danger")
+    return HttpResponseRedirect(reverse("core:students"))
+
+
+@require_POST
+@login_required
+def edit_student(request, uuid):
+    instance = get_object_or_404(User, uuid=uuid)
+
+    instance.name = request.POST["name"]
+    instance.email = request.POST["email"]
+
+    if request.POST["password"]:
+        instance.set_password(request.POST["password"])
+
+    instance.save()
+
+    messages.success(request, "Aluno editado com sucesso.")
     return HttpResponseRedirect(reverse("core:students"))

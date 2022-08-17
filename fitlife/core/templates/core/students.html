@@ -150,7 +150,7 @@
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
-                        <form role="form text-left" action="{% url 'core:edit-collaborator' user.uuid %}" method="post">
+                        <form role="form text-left" action="{% url 'core:edit-student' user.uuid %}" method="post">
                           {% csrf_token %}
 
                           <div class="modal-body">
@@ -167,15 +167,6 @@
                             <label>{{ form.password.label }}</label>
                             <div class="input-group mb-3">
                               {% render_field form.password class="form-control" placeholder="Digite a nova senha" type="password" %}
-                            </div>
-
-                            <label>{{ form.type.label }}</label>
-                            <div class="input-group mb-3">
-                              <select class="form-control" id="exampleFormControlSelect1" name="type">
-                                {% for x,y in form.fields.type.choices %}
-                                  <option value="{{ x }}" {% if x == user.type %}selected{% endif %}>{{ y }}</option>
-                                {% endfor %}
-                              </select>
                             </div>
 
                           </div>

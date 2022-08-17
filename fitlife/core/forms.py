@@ -31,14 +31,14 @@ class UserForm(forms.ModelForm):
         return user
 
 
-class StudentForm(UserForm):
+class StudentForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("name", "email", "password")
 
     def __init__(self, *args, **kwargs):
         super(StudentForm, self).__init__(*args, **kwargs)
-        self.fields["type"].required = False
+        self.fields["password"].required = False
 
     def save(self, commit=True):
         user = super(StudentForm, self).save(commit=commit)
