@@ -1,0 +1,260 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Treinos
+{% endblock %}
+
+{% block breadcumb %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Páginas</a></li>
+      <li class="breadcrumb-item text-sm text-white active" aria-current="page">Treinos</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">Treinos</h6>
+  </nav>
+{% endblock %}
+
+
+{% block content %}
+  <div class="card shadow-lg mx-4 mt-0 card-profile-bottom">
+    <div class="card-body p-3">
+      <div class="row gx-4">
+        <div class="col-auto">
+          <div class="avatar avatar-xl position-relative">
+            <img src="{% static 'img/gym-logo.jpg' %}" alt="profile_image" class="w-100 border-radius-lg shadow-sm">
+          </div>
+        </div>
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1">
+              Academia do João
+            </h5>
+            <p class="mb-0 font-weight-bold text-sm">
+              FITLIFE
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+          <div class="nav-wrapper position-relative end-0">
+            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+              <li class="nav-item">
+                <a class="mb-0 px-1 py-1 btn btn-primary d-flex align-items-center justify-content-center "
+                   data-bs-toggle="modal" data-bs-target="#addUserModal">
+                  <i class="fa fa-user-plus"></i>
+                  <span class="ms-2">Adicionar</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h6>Treinos: {{ practices.count }}</h6>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nome</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">QTD. Exercício</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTD. Alunos
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cadastrado
+                    em
+                  </th>
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for practice in practices %}
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                          <h6 class="mb-0 text-sm">{{ practice.name }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0">{{ practice.exercise_set.count }}</p>
+                    </td>
+                    <td>
+                      <p class="text-xs font-weight-bold mb-0">{{ practice.users.count }}</p>
+                    </td>
+                    <td class="align-middle text-center">
+                      <span class="text-secondary text-xs font-weight-bold">{{ user.created_at }}</span>
+                    </td>
+                    <td class="align-middle">
+                      <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-info"
+                         data-toggle="tooltip"
+                         data-original-title="Edit user"
+                         data-bs-toggle="modal" data-bs-target="#editModal-{{ user.uuid }}">
+                        Editar
+                      </a>
+                      <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-danger"
+                         data-toggle="tooltip"
+                         data-original-title="Edit user"
+                         data-bs-toggle="modal" data-bs-target="#deleteModal-{{ user.uuid }}">
+                        Deletar
+                      </a>
+                    </td>
+                  </tr>
+
+{#                  <!-- Modal Delete-->#}
+{#                  <div class="modal fade" id="deleteModal-{{ user.uuid }}" tabindex="-1" role="dialog"#}
+{#                       aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+{#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
+{#                      <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                          <h5 class="modal-title" id="exampleModalLabel">Deletar o usuário#}
+{#                            <strong>{{ user.name }}</strong> ?</h5>#}
+{#                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">#}
+{#                            <span aria-hidden="true">&times;</span>#}
+{#                          </button>#}
+{#                        </div>#}
+{#                        <div class="modal-body">#}
+{#                          Essa operação não poderá ser revertida#}
+{#                        </div>#}
+{#                        <div class="modal-footer">#}
+{#                          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar#}
+{#                          </button>#}
+{#                          <form role="form text-left" action="{% url 'core:delete-collaborator' user.uuid %}"#}
+{#                                method="post">#}
+{#                            {% csrf_token %}#}
+{#                            <button class="btn bg-gradient-danger">Deletar</button>#}
+{#                          </form>#}
+{#                        </div>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                  </div>#}
+
+                  <!-- Modal Delete-->
+{#                  <div class="modal fade" id="editModal-{{ user.uuid }}" tabindex="-1" role="dialog"#}
+{#                       aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+{#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
+{#                      <div class="modal-content">#}
+{#                        <div class="modal-header">#}
+{#                          <h5 class="modal-title" id="exampleModalLabel">Edição de <strong>{{ user.name }}</strong></h5>#}
+{#                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">#}
+{#                            <span aria-hidden="true">&times;</span>#}
+{#                          </button>#}
+{#                        </div>#}
+{#                        <form role="form text-left" action="{% url 'core:edit-collaborator' user.uuid %}" method="post">#}
+{#                          {% csrf_token %}#}
+{##}
+{#                          <div class="modal-body">#}
+{#                            <label>{{ form.name.label }}</label>#}
+{#                            <div class="input-group mb-3">#}
+{#                              {% render_field form.name class="form-control" value=user.name placeholder="Digite o nome" %}#}
+{#                            </div>#}
+{##}
+{#                            <label>{{ form.email.label }}</label>#}
+{#                            <div class="input-group mb-3">#}
+{#                              {% render_field form.email class="form-control" value=user.email placeholder="Digite o e-mail" %}#}
+{#                            </div>#}
+{##}
+{#                            <label>{{ form.password.label }}</label>#}
+{#                            <div class="input-group mb-3">#}
+{#                              {% render_field form.password class="form-control" placeholder="Digite a nova senha" type="password" %}#}
+{#                            </div>#}
+{##}
+{#                            <label>{{ form.type.label }}</label>#}
+{#                            <div class="input-group mb-3">#}
+{#                              <select class="form-control" id="exampleFormControlSelect1" name="type">#}
+{#                                {% for x,y in form.fields.type.choices %}#}
+{#                                  <option value="{{ x }}" {% if x == user.type %}selected{% endif %}>{{ y }}</option>#}
+{#                                {% endfor %}#}
+{#                              </select>#}
+{#                            </div>#}
+{##}
+{#                          </div>#}
+{##}
+{#                          <div class="modal-footer">#}
+{#                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar#}
+{#                            </button>#}
+{#                            <button class="btn bg-gradient-info">Editar</button>#}
+{#                          </div>#}
+{##}
+{#                        </form>#}
+{#                      </div>#}
+{#                    </div>#}
+{#                  </div>#}
+
+
+
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
+       aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-primary">Cadastrar Funcionário</h3>
+            </div>
+            <div class="card-body pb-3">
+              <form role="form text-left" action="{% url 'core:add-collaborator' %}" method="post">
+
+                {% csrf_token %}
+
+                <label>{{ form.name.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.name|add_class:'form-control'|attr:'placeholder:Digite o nome' }}
+                </div>
+
+                <label>{{ form.email.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.email|add_class:'form-control'|attr:'placeholder:Digite o e-mail' }}
+                </div>
+
+                <label>{{ form.password.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.password|add_class:'form-control'|attr:'placeholder:Digite a senha'|attr:'type:password'|attr:'required' }}
+                </div>
+
+                <label>{{ form.type.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.type|add_class:'form-control'|attr:'required' }}
+                </div>
+
+                <div class="text-center">
+                  <button class="btn bg-primary btn-lg btn-rounded w-100 mt-4 mb-0 text-white">Cadastrar</button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
