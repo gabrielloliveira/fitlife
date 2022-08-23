@@ -5,4 +5,5 @@ app_name = "practice"
 
 urlpatterns = [
     path("", views.list_practice, name="list"),
+    path("adicionar/", views.add_practice, name="create"),
 ]

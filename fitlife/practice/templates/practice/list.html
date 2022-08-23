@@ -66,8 +66,10 @@
                 <thead>
                 <tr>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nome</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">QTD. Exercício</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTD. Alunos
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">QTD. Exercício
+                  </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTD.
+                    Alunos
                   </th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cadastrado
                     em
@@ -111,85 +113,85 @@
                     </td>
                   </tr>
 
-{#                  <!-- Modal Delete-->#}
-{#                  <div class="modal fade" id="deleteModal-{{ user.uuid }}" tabindex="-1" role="dialog"#}
-{#                       aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-{#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
-{#                      <div class="modal-content">#}
-{#                        <div class="modal-header">#}
-{#                          <h5 class="modal-title" id="exampleModalLabel">Deletar o usuário#}
-{#                            <strong>{{ user.name }}</strong> ?</h5>#}
-{#                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">#}
-{#                            <span aria-hidden="true">&times;</span>#}
-{#                          </button>#}
-{#                        </div>#}
-{#                        <div class="modal-body">#}
-{#                          Essa operação não poderá ser revertida#}
-{#                        </div>#}
-{#                        <div class="modal-footer">#}
-{#                          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar#}
-{#                          </button>#}
-{#                          <form role="form text-left" action="{% url 'core:delete-collaborator' user.uuid %}"#}
-{#                                method="post">#}
-{#                            {% csrf_token %}#}
-{#                            <button class="btn bg-gradient-danger">Deletar</button>#}
-{#                          </form>#}
-{#                        </div>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                  </div>#}
+                  {#                  <!-- Modal Delete-->#}
+                  {#                  <div class="modal fade" id="deleteModal-{{ user.uuid }}" tabindex="-1" role="dialog"#}
+                  {#                       aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+                  {#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
+                  {#                      <div class="modal-content">#}
+                  {#                        <div class="modal-header">#}
+                  {#                          <h5 class="modal-title" id="exampleModalLabel">Deletar o usuário#}
+                  {#                            <strong>{{ user.name }}</strong> ?</h5>#}
+                  {#                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">#}
+                  {#                            <span aria-hidden="true">&times;</span>#}
+                  {#                          </button>#}
+                  {#                        </div>#}
+                  {#                        <div class="modal-body">#}
+                  {#                          Essa operação não poderá ser revertida#}
+                  {#                        </div>#}
+                  {#                        <div class="modal-footer">#}
+                  {#                          <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar#}
+                  {#                          </button>#}
+                  {#                          <form role="form text-left" action="{% url 'core:delete-collaborator' user.uuid %}"#}
+                  {#                                method="post">#}
+                  {#                            {% csrf_token %}#}
+                  {#                            <button class="btn bg-gradient-danger">Deletar</button>#}
+                  {#                          </form>#}
+                  {#                        </div>#}
+                  {#                      </div>#}
+                  {#                    </div>#}
+                  {#                  </div>#}
 
                   <!-- Modal Delete-->
-{#                  <div class="modal fade" id="editModal-{{ user.uuid }}" tabindex="-1" role="dialog"#}
-{#                       aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-{#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
-{#                      <div class="modal-content">#}
-{#                        <div class="modal-header">#}
-{#                          <h5 class="modal-title" id="exampleModalLabel">Edição de <strong>{{ user.name }}</strong></h5>#}
-{#                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">#}
-{#                            <span aria-hidden="true">&times;</span>#}
-{#                          </button>#}
-{#                        </div>#}
-{#                        <form role="form text-left" action="{% url 'core:edit-collaborator' user.uuid %}" method="post">#}
-{#                          {% csrf_token %}#}
-{##}
-{#                          <div class="modal-body">#}
-{#                            <label>{{ form.name.label }}</label>#}
-{#                            <div class="input-group mb-3">#}
-{#                              {% render_field form.name class="form-control" value=user.name placeholder="Digite o nome" %}#}
-{#                            </div>#}
-{##}
-{#                            <label>{{ form.email.label }}</label>#}
-{#                            <div class="input-group mb-3">#}
-{#                              {% render_field form.email class="form-control" value=user.email placeholder="Digite o e-mail" %}#}
-{#                            </div>#}
-{##}
-{#                            <label>{{ form.password.label }}</label>#}
-{#                            <div class="input-group mb-3">#}
-{#                              {% render_field form.password class="form-control" placeholder="Digite a nova senha" type="password" %}#}
-{#                            </div>#}
-{##}
-{#                            <label>{{ form.type.label }}</label>#}
-{#                            <div class="input-group mb-3">#}
-{#                              <select class="form-control" id="exampleFormControlSelect1" name="type">#}
-{#                                {% for x,y in form.fields.type.choices %}#}
-{#                                  <option value="{{ x }}" {% if x == user.type %}selected{% endif %}>{{ y }}</option>#}
-{#                                {% endfor %}#}
-{#                              </select>#}
-{#                            </div>#}
-{##}
-{#                          </div>#}
-{##}
-{#                          <div class="modal-footer">#}
-{#                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar#}
-{#                            </button>#}
-{#                            <button class="btn bg-gradient-info">Editar</button>#}
-{#                          </div>#}
-{##}
-{#                        </form>#}
-{#                      </div>#}
-{#                    </div>#}
-{#                  </div>#}
+                  {#                  <div class="modal fade" id="editModal-{{ user.uuid }}" tabindex="-1" role="dialog"#}
+                  {#                       aria-labelledby="exampleModalLabel" aria-hidden="true">#}
+                  {#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
+                  {#                      <div class="modal-content">#}
+                  {#                        <div class="modal-header">#}
+                  {#                          <h5 class="modal-title" id="exampleModalLabel">Edição de <strong>{{ user.name }}</strong></h5>#}
+                  {#                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">#}
+                  {#                            <span aria-hidden="true">&times;</span>#}
+                  {#                          </button>#}
+                  {#                        </div>#}
+                  {#                        <form role="form text-left" action="{% url 'core:edit-collaborator' user.uuid %}" method="post">#}
+                  {#                          {% csrf_token %}#}
+                  {##}
+                  {#                          <div class="modal-body">#}
+                  {#                            <label>{{ form.name.label }}</label>#}
+                  {#                            <div class="input-group mb-3">#}
+                  {#                              {% render_field form.name class="form-control" value=user.name placeholder="Digite o nome" %}#}
+                  {#                            </div>#}
+                  {##}
+                  {#                            <label>{{ form.email.label }}</label>#}
+                  {#                            <div class="input-group mb-3">#}
+                  {#                              {% render_field form.email class="form-control" value=user.email placeholder="Digite o e-mail" %}#}
+                  {#                            </div>#}
+                  {##}
+                  {#                            <label>{{ form.password.label }}</label>#}
+                  {#                            <div class="input-group mb-3">#}
+                  {#                              {% render_field form.password class="form-control" placeholder="Digite a nova senha" type="password" %}#}
+                  {#                            </div>#}
+                  {##}
+                  {#                            <label>{{ form.type.label }}</label>#}
+                  {#                            <div class="input-group mb-3">#}
+                  {#                              <select class="form-control" id="exampleFormControlSelect1" name="type">#}
+                  {#                                {% for x,y in form.fields.type.choices %}#}
+                  {#                                  <option value="{{ x }}" {% if x == user.type %}selected{% endif %}>{{ y }}</option>#}
+                  {#                                {% endfor %}#}
+                  {#                              </select>#}
+                  {#                            </div>#}
+                  {##}
+                  {#                          </div>#}
+                  {##}
+                  {#                          <div class="modal-footer">#}
+                  {#                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar#}
+                  {#                            </button>#}
+                  {#                            <button class="btn bg-gradient-info">Editar</button>#}
+                  {#                          </div>#}
+                  {##}
+                  {#                        </form>#}
+                  {#                      </div>#}
+                  {#                    </div>#}
+                  {#                  </div>#}
 
 
 
@@ -212,10 +214,10 @@
         <div class="modal-body p-0">
           <div class="card card-plain">
             <div class="card-header pb-0 text-left">
-              <h3 class="font-weight-bolder text-primary">Cadastrar Funcionário</h3>
+              <h3 class="font-weight-bolder text-primary">Cadastrar Treino</h3>
             </div>
             <div class="card-body pb-3">
-              <form role="form text-left" action="{% url 'core:add-collaborator' %}" method="post">
+              <form role="form text-left" action="{% url 'practice:create' %}" method="post">
 
                 {% csrf_token %}
 
@@ -224,19 +226,9 @@
                   {{ form.name|add_class:'form-control'|attr:'placeholder:Digite o nome' }}
                 </div>
 
-                <label>{{ form.email.label }}</label>
+                <label>Alunos</label>
                 <div class="input-group mb-3">
-                  {{ form.email|add_class:'form-control'|attr:'placeholder:Digite o e-mail' }}
-                </div>
-
-                <label>{{ form.password.label }}</label>
-                <div class="input-group mb-3">
-                  {{ form.password|add_class:'form-control'|attr:'placeholder:Digite a senha'|attr:'type:password'|attr:'required' }}
-                </div>
-
-                <label>{{ form.type.label }}</label>
-                <div class="input-group mb-3">
-                  {{ form.type|add_class:'form-control'|attr:'required' }}
+                  {{ form.users|add_class:'form-control'|attr:'placeholder:Digite o nome do aluno' }}
                 </div>
 
                 <div class="text-center">
@@ -256,5 +248,28 @@
 {% endblock %}
 
 {% block script %}
+  <script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
 
+  {{ form.media }}
+
+  <script>
+      (function ($) {
+          $('#add-form').click(function () {
+              var index = $('#id_inline_test_models-TOTAL_FORMS').val()
+              var newTable = $('#id_inline_test_models-__prefix__-DELETE').parents('table').clone()
+              newTable.find(':input').each(function () {
+                  for (attr of ['name', 'id'])
+                      $(this).attr(
+                          attr,
+                          $(this).attr(attr).replace('__prefix__', index)
+                      )
+              })
+              newTable.insertBefore($(this))
+              $('#id_inline_test_models-TOTAL_FORMS').val(
+                  parseInt($('#id_inline_test_models-TOTAL_FORMS').val()) + 1
+              )
+              newTable.slideDown()
+          })
+      })($)
+  </script>
 {% endblock %}

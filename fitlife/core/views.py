@@ -1,3 +1,4 @@
+from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, LogoutView
@@ -113,3 +114,16 @@ def delete_student(request, uuid):
     user.delete()
     messages.success(request, "Aluno deletado com sucesso.")
     return HttpResponseRedirect(reverse("core:students"))
+
+
+class StudentAutocomplete(autocomplete.Select2QuerySetView):
+    def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return User.objects.none()
+
+        qs = User.objects.only_students()
+
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+
+        return qs
