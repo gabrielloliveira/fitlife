@@ -3,16 +3,17 @@
 {% load widget_tweaks %}
 
 {% block title %}
-  Treinos
+  Treinos {{ practice.name }}
 {% endblock %}
 
 {% block breadcumb %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
       <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Páginas</a></li>
-      <li class="breadcrumb-item text-sm text-white active" aria-current="page">Treinos</li>
+      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Treinos</a></li>
+      <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ practice.name }}</li>
     </ol>
-    <h6 class="font-weight-bolder text-white mb-0">Treinos</h6>
+    <h6 class="font-weight-bolder text-white mb-0">{{ practice.name }}</h6>
   </nav>
 {% endblock %}
 
@@ -58,19 +59,14 @@
       <div class="col-12">
         <div class="card mb-4">
           <div class="card-header pb-0">
-            <h6>Treinos: {{ practices.count }}</h6>
+            <h6>Exercícios: {{ exercises.count }}</h6>
           </div>
           <div class="card-body px-0 pt-0 pb-2">
             <div class="table-responsive p-0">
               <table class="table align-items-center mb-0">
                 <thead>
                 <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nome</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">QTD. Exercício
-                  </th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">QTD.
-                    Alunos
-                  </th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Dia da Semana</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cadastrado
                     em
                   </th>
@@ -79,28 +75,19 @@
                 </thead>
                 <tbody>
 
-                {% for practice in practices %}
+                {% for exercise in exercises %}
                   <tr>
                     <td>
                       <div class="d-flex px-2 py-1">
                         <div class="d-flex flex-column justify-content-center">
-                          <h6 class="mb-0 text-sm">{{ practice.name }}</h6>
+                          <h6 class="mb-0 text-sm">{{ exercise.get_day_display }}</h6>
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <p class="text-xs font-weight-bold mb-0">{{ practice.exercise_set.count }}</p>
-                    </td>
-                    <td>
-                      <p class="text-xs font-weight-bold mb-0">{{ practice.users.count }}</p>
-                    </td>
                     <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">{{ practice.created_at }}</span>
+                      <span class="text-secondary text-xs font-weight-bold">{{ exercise.created_at }}</span>
                     </td>
                     <td class="align-middle">
-                      <a href="{% url 'practice:detail' practice.uuid %}" class="font-weight-bold text-xs btn bg-gradient-primary">
-                        Visualizar
-                      </a>
                       <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-info"
                          data-toggle="tooltip"
                          data-original-title="Edit user"
@@ -216,21 +203,23 @@
               <h3 class="font-weight-bolder text-primary">Cadastrar Treino</h3>
             </div>
             <div class="card-body pb-3">
-              <form role="form text-left" action="{% url 'practice:create' %}" method="post">
+              <form role="form text-left" action="{% url 'practice:create-exercise' practice.uuid %}" method="post">
 
                 {% csrf_token %}
 
-                <label>{{ form.name.label }}</label>
+                <input type="hidden" name="practice" value="{{ practice.id }}">
+
+                <label>{{ form.day.label }}</label>
                 <div class="input-group mb-3">
-                  {{ form.name|add_class:'form-control'|attr:'placeholder:Digite o nome' }}
+                  {{ form.day|add_class:'form-control'|attr:'placeholder:Digite o nome' }}
                 </div>
 
-                <label>Alunos</label>
+                <label>{{ form.content.label }}</label>
                 <div class="input-group mb-3">
-                  {{ form.users|add_class:'form-control'|attr:'placeholder:Digite o nome do aluno' }}
+                  {{ form.content|add_class:'form-control' }}
                 </div>
 
-                <div class="text-center">
+                <div class="text-center" style="margin-top: 5rem">
                   <button class="btn bg-primary btn-lg btn-rounded w-100 mt-4 mb-0 text-white">Cadastrar</button>
                 </div>
 

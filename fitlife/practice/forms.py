@@ -1,7 +1,8 @@
 from dal import autocomplete
 from django import forms
+from django_quill.forms import QuillFormField
 
-from fitlife.practice.models import Practice
+from fitlife.practice.models import Practice, Exercise
 
 
 class PracticeForm(forms.ModelForm):
@@ -17,3 +18,11 @@ class PracticeForm(forms.ModelForm):
                 },
             ),
         }
+
+
+class ExerciseForm(forms.ModelForm):
+    content = QuillFormField(label="Conteúdo")
+
+    class Meta:
+        model = Exercise
+        fields = ("practice", "day", "content")

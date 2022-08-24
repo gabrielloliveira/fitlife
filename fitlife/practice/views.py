@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 
 from fitlife.core.models import User
-from fitlife.practice.forms import PracticeForm
+from fitlife.practice.forms import PracticeForm, ExerciseForm
 from fitlife.practice.models import Practice
 
 
@@ -54,3 +54,27 @@ def edit_practice(request, uuid):
         print(form.errors)
         messages.error(request, "Erro ao atualizar o treino.", extra_tags="danger")
     return HttpResponseRedirect(reverse("practice:list"))
+
+
+@login_required
+def detail_practice(request, uuid):
+    practice = get_object_or_404(Practice, uuid=uuid)
+    context = {
+        "practice": practice,
+        "exercises": practice.exercise_set.order_by("-day"),
+        "form": ExerciseForm(),
+    }
+    return render(request, "practice/detail.html", context=context)
+
+
+@require_POST
+@login_required
+def add_exercise(request, uuid):
+    form = ExerciseForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Exercício vinculado com sucesso.")
+    else:
+        print(form.errors)
+        messages.error(request, "Erro ao vincular exercício.", extra_tags="danger")
+    return HttpResponseRedirect(reverse("practice:detail", kwargs={"uuid": uuid}))
