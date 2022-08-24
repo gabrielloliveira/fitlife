@@ -87,3 +87,17 @@ def delete_exercise(request, uuid, uuid_exercise):
     exercise.delete()
     messages.success(request, "Exercício deletado com sucesso.")
     return HttpResponseRedirect(reverse("practice:detail", kwargs={"uuid": uuid}))
+
+
+@require_POST
+@login_required
+def edit_exercise(request, uuid, uuid_exercise):
+    exercise = get_object_or_404(Exercise, practice__uuid=uuid, uuid=uuid_exercise)
+    form = ExerciseForm(request.POST, instance=exercise, prefix=f"{exercise.uuid}")
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Exercício atualizado com sucesso.")
+    else:
+        print(form.errors)
+        messages.error(request, "Erro ao atualizar exercício.", extra_tags="danger")
+    return HttpResponseRedirect(reverse("practice:detail", kwargs={"uuid": uuid}))

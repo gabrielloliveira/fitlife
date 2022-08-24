@@ -10,5 +10,6 @@ urlpatterns = [
     path("<uuid:uuid>/editar/", views.edit_practice, name="edit"),
     path("<uuid:uuid>/detalhes/", views.detail_practice, name="detail"),
     path("<uuid:uuid>/detalhes/cadastrar-exercicio/", views.add_exercise, name="create-exercise"),
-    path("<uuid:uuid>/detalhes/<uuid:uuid_exercise>/", views.delete_exercise, name="delete-exercise"),
+    path("<uuid:uuid>/detalhes/<uuid:uuid_exercise>/deletar/", views.delete_exercise, name="delete-exercise"),
+    path("<uuid:uuid>/detalhes/<uuid:uuid_exercise>/editar/", views.edit_exercise, name="edit-exercise"),
 ]

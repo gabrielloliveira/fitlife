@@ -91,7 +91,7 @@
                       <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-info"
                          data-toggle="tooltip"
                          data-original-title="Edit user"
-                         data-bs-toggle="modal" data-bs-target="#editModal-{{ practice.uuid }}">
+                         data-bs-toggle="modal" data-bs-target="#editModal-{{ exercise.uuid }}">
                         Editar
                       </a>
                       <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-danger"
@@ -136,38 +136,34 @@
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Edição de <strong>{{ practice.name }}</strong>
-                          </h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Edição de exercício</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
-                        <form role="form text-left" action="{% url 'practice:edit' practice.uuid %}" method="post">
+                        <form role="form text-left" action="{% url 'practice:edit-exercise' practice.uuid exercise.uuid %}" method="post">
                           {% csrf_token %}
 
-                          <div class="modal-body">
-                            <label>{{ form.name.label }}</label>
-                            <div class="input-group mb-3">
-                              {% render_field form.name class="form-control" value=practice.name placeholder="Digite o nome" %}
-                            </div>
+                          <input type="hidden" name="{{ exercise.uuid }}-practice" value="{{ practice.id }}">
 
-                            <label>Alunos</label>
+                          <div class="modal-body">
+                            <label>{{ form.day.label }}</label>
                             <div class="input-group mb-3">
-                              <select name="users" multiple data-placeholder="Digite o nome do aluno ..."
-                                      data-minimum-input-length="2" class="form-control" required="" id="id_users"
-                                      data-autocomplete-light-language="pt-BR"
-                                      aria-hidden="false">
-                                {% for student in students %}
-                                  <option value="{{ student.id }}" {% if student.pk in practice.students_id %}selected {% endif %}>
-                                    {{ student.name }}
-                                  </option>
+                              <select class="form-control" id="exampleFormControlSelect1" name="{{ exercise.uuid }}-day">
+                                {% for x,y in form.fields.day.choices %}
+                                  <option value="{{ x }}" {% if x == exercise.day %}selected{% endif %}>{{ y }}</option>
                                 {% endfor %}
                               </select>
                             </div>
 
+                            <label>Conteúdo</label>
+                            <div class="input-group mb-3">
+                              {{ exercise.get_form.content|add_class:'form-control' }}
+                            </div>
+
                           </div>
 
-                          <div class="modal-footer">
+                          <div class="modal-footer" style="margin-top: 5rem">
                             <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar
                             </button>
                             <button class="btn bg-gradient-info">Editar</button>

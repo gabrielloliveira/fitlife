@@ -61,6 +61,12 @@ class Exercise(BaseModel):
     def __str__(self):
         return f"{self.practice} | {self.day}"
 
+    @property
+    def get_form(self):
+        from .forms import ExerciseForm
+
+        return ExerciseForm(instance=self, prefix=f"{self.uuid}")
+
 
 class Frequency(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("usuário"), on_delete=models.CASCADE)
