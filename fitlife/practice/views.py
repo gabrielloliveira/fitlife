@@ -46,7 +46,7 @@ def delete_practice(request, uuid):
 @login_required
 def edit_practice(request, uuid):
     practice = get_object_or_404(Practice, uuid=uuid)
-    form = PracticeForm(request.POST, instance=practice)
+    form = PracticeForm(request.POST, instance=practice, prefix=f"{practice.uuid}")
     if form.is_valid():
         form.save()
         messages.success(request, "Treino atualizado com sucesso.")

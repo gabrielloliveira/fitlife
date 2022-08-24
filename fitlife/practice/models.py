@@ -24,7 +24,7 @@ class Practice(BaseModel):
     def get_form(self):
         from .forms import PracticeForm
 
-        return PracticeForm(instance=self)
+        return PracticeForm(instance=self, prefix=f"{self.uuid}")
 
     @cached_property
     def students_id(self):

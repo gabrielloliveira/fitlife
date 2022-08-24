@@ -162,21 +162,12 @@
                           <div class="modal-body">
                             <label>{{ form.name.label }}</label>
                             <div class="input-group mb-3">
-                              {% render_field form.name class="form-control" value=practice.name placeholder="Digite o nome" %}
+                              {% render_field practice.get_form.name class="form-control" value=practice.name placeholder="Digite o nome" %}
                             </div>
 
                             <label>Alunos</label>
                             <div class="input-group mb-3">
-                              <select name="users" multiple data-placeholder="Digite o nome do aluno ..."
-                                      data-minimum-input-length="2" class="form-control" required="" id="id_users"
-                                      data-autocomplete-light-language="pt-BR"
-                                      aria-hidden="false">
-                                {% for student in students %}
-                                  <option value="{{ student.id }}" {% if student.pk in practice.students_id %}selected {% endif %}>
-                                    {{ student.name }}
-                                  </option>
-                                {% endfor %}
-                              </select>
+                              {{ practice.get_form.users|attr:'form-control' }}
                             </div>
 
                           </div>
