@@ -2,6 +2,7 @@ import calendar
 
 from django.conf import settings
 from django.db import models
+from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy as _
 from django_quill.fields import QuillField
 
@@ -18,6 +19,16 @@ class Practice(BaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_form(self):
+        from .forms import PracticeForm
+
+        return PracticeForm(instance=self)
+
+    @cached_property
+    def students_id(self):
+        return self.users.all().values_list("id", flat=True)
 
 
 class Exercise(BaseModel):

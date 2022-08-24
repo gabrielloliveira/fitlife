@@ -98,6 +98,9 @@
                       <span class="text-secondary text-xs font-weight-bold">{{ practice.created_at }}</span>
                     </td>
                     <td class="align-middle">
+                      <a href="" class="font-weight-bold text-xs btn bg-gradient-primary">
+                        Visualizar
+                      </a>
                       <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-info"
                          data-toggle="tooltip"
                          data-original-title="Edit user"
@@ -142,56 +145,52 @@
                   </div>
 
                   <!-- Modal Delete-->
-                  {#                  <div class="modal fade" id="editModal-{{ user.uuid }}" tabindex="-1" role="dialog"#}
-                  {#                       aria-labelledby="exampleModalLabel" aria-hidden="true">#}
-                  {#                    <div class="modal-dialog modal-dialog-centered" role="document">#}
-                  {#                      <div class="modal-content">#}
-                  {#                        <div class="modal-header">#}
-                  {#                          <h5 class="modal-title" id="exampleModalLabel">Edição de <strong>{{ user.name }}</strong></h5>#}
-                  {#                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">#}
-                  {#                            <span aria-hidden="true">&times;</span>#}
-                  {#                          </button>#}
-                  {#                        </div>#}
-                  {#                        <form role="form text-left" action="{% url 'core:edit-collaborator' user.uuid %}" method="post">#}
-                  {#                          {% csrf_token %}#}
-                  {##}
-                  {#                          <div class="modal-body">#}
-                  {#                            <label>{{ form.name.label }}</label>#}
-                  {#                            <div class="input-group mb-3">#}
-                  {#                              {% render_field form.name class="form-control" value=user.name placeholder="Digite o nome" %}#}
-                  {#                            </div>#}
-                  {##}
-                  {#                            <label>{{ form.email.label }}</label>#}
-                  {#                            <div class="input-group mb-3">#}
-                  {#                              {% render_field form.email class="form-control" value=user.email placeholder="Digite o e-mail" %}#}
-                  {#                            </div>#}
-                  {##}
-                  {#                            <label>{{ form.password.label }}</label>#}
-                  {#                            <div class="input-group mb-3">#}
-                  {#                              {% render_field form.password class="form-control" placeholder="Digite a nova senha" type="password" %}#}
-                  {#                            </div>#}
-                  {##}
-                  {#                            <label>{{ form.type.label }}</label>#}
-                  {#                            <div class="input-group mb-3">#}
-                  {#                              <select class="form-control" id="exampleFormControlSelect1" name="type">#}
-                  {#                                {% for x,y in form.fields.type.choices %}#}
-                  {#                                  <option value="{{ x }}" {% if x == user.type %}selected{% endif %}>{{ y }}</option>#}
-                  {#                                {% endfor %}#}
-                  {#                              </select>#}
-                  {#                            </div>#}
-                  {##}
-                  {#                          </div>#}
-                  {##}
-                  {#                          <div class="modal-footer">#}
-                  {#                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar#}
-                  {#                            </button>#}
-                  {#                            <button class="btn bg-gradient-info">Editar</button>#}
-                  {#                          </div>#}
-                  {##}
-                  {#                        </form>#}
-                  {#                      </div>#}
-                  {#                    </div>#}
-                  {#                  </div>#}
+                  <div class="modal fade" id="editModal-{{ practice.uuid }}" tabindex="-1" role="dialog"
+                       aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Edição de <strong>{{ practice.name }}</strong>
+                          </h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form role="form text-left" action="{% url 'practice:edit' practice.uuid %}" method="post">
+                          {% csrf_token %}
+
+                          <div class="modal-body">
+                            <label>{{ form.name.label }}</label>
+                            <div class="input-group mb-3">
+                              {% render_field form.name class="form-control" value=practice.name placeholder="Digite o nome" %}
+                            </div>
+
+                            <label>Alunos</label>
+                            <div class="input-group mb-3">
+                              <select name="users" multiple data-placeholder="Digite o nome do aluno ..."
+                                      data-minimum-input-length="2" class="form-control" required="" id="id_users"
+                                      data-autocomplete-light-language="pt-BR"
+                                      aria-hidden="false">
+                                {% for student in students %}
+                                  <option value="{{ student.id }}" {% if student.pk in practice.students_id %}selected {% endif %}>
+                                    {{ student.name }}
+                                  </option>
+                                {% endfor %}
+                              </select>
+                            </div>
+
+                          </div>
+
+                          <div class="modal-footer">
+                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar
+                            </button>
+                            <button class="btn bg-gradient-info">Editar</button>
+                          </div>
+
+                        </form>
+                      </div>
+                    </div>
+                  </div>
 
 
 

@@ -7,4 +7,5 @@ urlpatterns = [
     path("", views.list_practice, name="list"),
     path("adicionar/", views.add_practice, name="create"),
     path("<uuid:uuid>/deletar/", views.delete_practice, name="delete"),
+    path("<uuid:uuid>/editar/", views.edit_practice, name="edit"),
 ]
