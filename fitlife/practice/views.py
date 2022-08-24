@@ -7,7 +7,7 @@ from django.views.decorators.http import require_POST
 
 from fitlife.core.models import User
 from fitlife.practice.forms import PracticeForm, ExerciseForm
-from fitlife.practice.models import Practice
+from fitlife.practice.models import Practice, Exercise
 
 
 @login_required
@@ -77,4 +77,13 @@ def add_exercise(request, uuid):
     else:
         print(form.errors)
         messages.error(request, "Erro ao vincular exercício.", extra_tags="danger")
+    return HttpResponseRedirect(reverse("practice:detail", kwargs={"uuid": uuid}))
+
+
+@require_POST
+@login_required
+def delete_exercise(request, uuid, uuid_exercise):
+    exercise = get_object_or_404(Exercise, practice__uuid=uuid, uuid=uuid_exercise)
+    exercise.delete()
+    messages.success(request, "Exercício deletado com sucesso.")
     return HttpResponseRedirect(reverse("practice:detail", kwargs={"uuid": uuid}))

@@ -10,7 +10,7 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
       <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Páginas</a></li>
-      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Treinos</a></li>
+      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="{% url 'practice:list' %}">Treinos</a></li>
       <li class="breadcrumb-item text-sm text-white active" aria-current="page">{{ practice.name }}</li>
     </ol>
     <h6 class="font-weight-bolder text-white mb-0">{{ practice.name }}</h6>
@@ -97,20 +97,19 @@
                       <a href="javascript:;" class="font-weight-bold text-xs btn bg-gradient-danger"
                          data-toggle="tooltip"
                          data-original-title="Edit user"
-                         data-bs-toggle="modal" data-bs-target="#deleteModal-{{ practice.uuid }}">
+                         data-bs-toggle="modal" data-bs-target="#deleteModal-{{ exercise.uuid }}">
                         Deletar
                       </a>
                     </td>
                   </tr>
 
                   <!-- Modal Delete-->
-                  <div class="modal fade" id="deleteModal-{{ practice.uuid }}" tabindex="-1" role="dialog"
+                  <div class="modal fade" id="deleteModal-{{ exercise.uuid }}" tabindex="-1" role="dialog"
                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Deletar o treino?
-                            <strong>{{ practice.name }}</strong> ?</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Deletar o exercício?</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -121,7 +120,7 @@
                         <div class="modal-footer">
                           <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Fechar
                           </button>
-                          <form role="form text-left" action="{% url 'practice:delete' practice.uuid %}"
+                          <form role="form text-left" action="{% url 'practice:delete-exercise' practice.uuid exercise.uuid %}"
                                 method="post">
                             {% csrf_token %}
                             <button class="btn bg-gradient-danger">Deletar</button>
@@ -132,7 +131,7 @@
                   </div>
 
                   <!-- Modal Delete-->
-                  <div class="modal fade" id="editModal-{{ practice.uuid }}" tabindex="-1" role="dialog"
+                  <div class="modal fade" id="editModal-{{ exercise.uuid }}" tabindex="-1" role="dialog"
                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                       <div class="modal-content">
