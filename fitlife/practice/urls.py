@@ -12,8 +12,8 @@ urlpatterns = [
     path("<uuid:uuid>/detalhes/cadastrar-exercicio/", views.add_exercise, name="create-exercise"),
     path("<uuid:uuid>/detalhes/<uuid:uuid_exercise>/deletar/", views.delete_exercise, name="delete-exercise"),
     path("<uuid:uuid>/detalhes/<uuid:uuid_exercise>/editar/", views.edit_exercise, name="edit-exercise"),
-    path("<uuid:uuid>/frequencia/iniciar/", views.start_frequency, name="start-frequency"),
-    path("<uuid:uuid>/frequencia/finalizar/", views.end_frequency, name="end-frequency"),
-    path("<uuid:uuid>/frequencia/active/", views.frequency_is_active, name="is-active-frequency"),
-    path("<uuid:uuid>/frequencia/count/", views.count_frequency, name="count-frequency"),
+    path("frequencia/iniciar/", views.start_frequency, name="start-frequency"),
+    path("frequencia/finalizar/", views.end_frequency, name="end-frequency"),
+    path("frequencia/active/", views.frequency_is_active, name="is-active-frequency"),
+    path("frequencia/count/", views.count_frequency, name="count-frequency"),
 ]
