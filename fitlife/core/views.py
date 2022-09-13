@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
+from fitlife.core.decorators import admin_required
 from fitlife.core.forms import UserForm, StudentForm
 from fitlife.core.models import User
 
@@ -20,6 +21,7 @@ def home(request):
 
 
 @login_required
+@admin_required
 def collaborators(request):
     context = {
         "form": UserForm(initial={"type": "owner"}),
@@ -30,6 +32,7 @@ def collaborators(request):
 
 @require_POST
 @login_required
+@admin_required
 def add_collaborator(request):
     form = UserForm(request.POST)
     if form.is_valid():
@@ -43,6 +46,7 @@ def add_collaborator(request):
 
 @require_POST
 @login_required
+@admin_required
 def edit_collaborator(request, uuid):
     instance = get_object_or_404(User, uuid=uuid)
 
@@ -61,6 +65,7 @@ def edit_collaborator(request, uuid):
 
 @require_POST
 @login_required
+@admin_required
 def delete_collaborator(request, uuid):
     user = get_object_or_404(User, uuid=uuid)
     user.delete()
@@ -69,6 +74,7 @@ def delete_collaborator(request, uuid):
 
 
 @login_required
+@admin_required
 def students(request):
     context = {
         "form": StudentForm(),
@@ -79,6 +85,7 @@ def students(request):
 
 @require_POST
 @login_required
+@admin_required
 def add_student(request):
     form = StudentForm(request.POST)
     if form.is_valid():
@@ -92,6 +99,7 @@ def add_student(request):
 
 @require_POST
 @login_required
+@admin_required
 def edit_student(request, uuid):
     instance = get_object_or_404(User, uuid=uuid)
 
@@ -109,6 +117,7 @@ def edit_student(request, uuid):
 
 @require_POST
 @login_required
+@admin_required
 def delete_student(request, uuid):
     user = get_object_or_404(User, uuid=uuid)
     user.delete()

@@ -7,6 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from django.views.decorators.http import require_POST
 
+from fitlife.core.decorators import admin_required
 from fitlife.core.models import User
 from fitlife.practice.forms import PracticeForm, ExerciseForm
 from fitlife.practice.models import Practice, Exercise, Frequency
@@ -24,6 +25,7 @@ def list_practice(request):
 
 @require_POST
 @login_required
+@admin_required
 def add_practice(request):
     form = PracticeForm(request.POST)
     if form.is_valid():
@@ -37,6 +39,7 @@ def add_practice(request):
 
 @require_POST
 @login_required
+@admin_required
 def delete_practice(request, uuid):
     practice = get_object_or_404(Practice, uuid=uuid)
     practice.delete()
@@ -46,6 +49,7 @@ def delete_practice(request, uuid):
 
 @require_POST
 @login_required
+@admin_required
 def edit_practice(request, uuid):
     practice = get_object_or_404(Practice, uuid=uuid)
     form = PracticeForm(request.POST, instance=practice, prefix=f"{practice.uuid}")
@@ -59,6 +63,7 @@ def edit_practice(request, uuid):
 
 
 @login_required
+@admin_required
 def detail_practice(request, uuid):
     practice = get_object_or_404(Practice, uuid=uuid)
     context = {
@@ -71,6 +76,7 @@ def detail_practice(request, uuid):
 
 @require_POST
 @login_required
+@admin_required
 def add_exercise(request, uuid):
     form = ExerciseForm(request.POST)
     if form.is_valid():
@@ -84,6 +90,7 @@ def add_exercise(request, uuid):
 
 @require_POST
 @login_required
+@admin_required
 def delete_exercise(request, uuid, uuid_exercise):
     exercise = get_object_or_404(Exercise, practice__uuid=uuid, uuid=uuid_exercise)
     exercise.delete()
@@ -93,6 +100,7 @@ def delete_exercise(request, uuid, uuid_exercise):
 
 @require_POST
 @login_required
+@admin_required
 def edit_exercise(request, uuid, uuid_exercise):
     exercise = get_object_or_404(Exercise, practice__uuid=uuid, uuid=uuid_exercise)
     form = ExerciseForm(request.POST, instance=exercise, prefix=f"{exercise.uuid}")

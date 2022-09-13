@@ -47,6 +47,10 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
         return self.name
 
     @property
+    def is_admin(self):
+        return self.type != self.TYPE_STUDENT
+
+    @property
     def last_entry(self):
         if self.type != self.TYPE_STUDENT:
             return None
