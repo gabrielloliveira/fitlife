@@ -1,0 +1,143 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}
+  Meu Treino
+{% endblock %}
+
+{% block breadcumb %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+      <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Páginas</a></li>
+      <li class="breadcrumb-item text-sm text-white active" aria-current="page">Meu Treino</li>
+    </ol>
+    <h6 class="font-weight-bolder text-white mb-0">{{ practice.name }}</h6>
+  </nav>
+{% endblock %}
+
+
+{% block content %}
+
+  <div class="card shadow-lg mx-4 mt-0 card-profile-bottom">
+    <div class="card-body p-3">
+      <div class="row gx-4">
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1">
+              53
+            </h5>
+            <p class="mb-0 font-weight-bold text-sm">
+              Pessoas na Academia
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+          <div class="nav-wrapper position-relative end-0">
+            <ul class="nav nav-pills nav-fill p-1" role="tablist">
+              <li class="nav-item">
+                <a class="mb-0 px-1 py-1 btn btn-primary d-flex align-items-center justify-content-center ">
+                  <span class="ms-2">Fazer Check-in</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid py-4">
+
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header pb-0">
+
+          </div>
+
+          <div class="card-body wysiwyg">
+            {% if not practice %}
+              <p class="text-uppercase text-sm text-danger">
+                Você não tem um treino registrado. Peça a um personal para adiconar seu treino.
+              </p>
+            {% elif practice and not practice.exercise_today %}
+              <p class="text-uppercase text-sm text-danger">
+                Seu treino não têm exercícios para hoje.
+              </p>
+            {% elif practice and not next_exercise %}
+              <p class="text-uppercase text-sm text-success text-bold">
+                Você já completou todos os treinos de hoje!!
+              </p>
+            {% else %}
+              {{ next_exercise.content.html|safe }}
+
+              <form action="{% url 'practice:check' next_exercise.uuid %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="exercise" value="{{ next_exercise.uuid }}">
+                <p style="text-align: right">
+                  <button href="" class="btn btn-primary">Finalizei o exercício</button>
+                </p>
+              </form>
+
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
+       aria-labelledby="exampleModalSignTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-body p-0">
+          <div class="card card-plain">
+            <div class="card-header pb-0 text-left">
+              <h3 class="font-weight-bolder text-primary">Cadastrar Funcionário</h3>
+            </div>
+            <div class="card-body pb-3">
+              <form role="form text-left" action="{% url 'core:add-collaborator' %}" method="post">
+
+                {% csrf_token %}
+
+                <label>{{ form.name.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.name|add_class:'form-control'|attr:'placeholder:Digite o nome' }}
+                </div>
+
+                <label>{{ form.email.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.email|add_class:'form-control'|attr:'placeholder:Digite o e-mail' }}
+                </div>
+
+                <label>{{ form.password.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.password|add_class:'form-control'|attr:'placeholder:Digite a senha'|attr:'type:password'|attr:'required' }}
+                </div>
+
+                <label>{{ form.type.label }}</label>
+                <div class="input-group mb-3">
+                  {{ form.type|add_class:'form-control'|attr:'required' }}
+                </div>
+
+                <div class="text-center">
+                  <button class="btn bg-primary btn-lg btn-rounded w-100 mt-4 mb-0 text-white">Cadastrar</button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

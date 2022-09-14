@@ -10,7 +10,7 @@ from django.views.decorators.http import require_POST
 from fitlife.core.decorators import admin_required
 from fitlife.core.models import User
 from fitlife.practice.forms import PracticeForm, ExerciseForm
-from fitlife.practice.models import Practice, Exercise, Frequency
+from fitlife.practice.models import Practice, Exercise, Frequency, Checklist
 
 
 @login_required
@@ -150,3 +150,15 @@ def count_frequency(request, uuid):
     user = request.user
     frequency_count = Frequency.objects.filter(user=user, date_start__gte=date.today(), date_end__isnull=True).count()
     return HttpResponse(str(frequency_count))
+
+
+@login_required
+@require_POST
+def check_exercise(request, uuid):
+    exercise = get_object_or_404(Exercise, uuid=uuid)
+    Checklist.objects.create(
+        date=date.today(),
+        exercise=exercise,
+        user=request.user,
+    )
+    return HttpResponseRedirect(reverse("core:practice"))

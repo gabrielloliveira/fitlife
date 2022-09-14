@@ -17,7 +17,19 @@ logout = LogoutView.as_view()
 
 @login_required
 def home(request):
+    if not request.user.is_admin:
+        return HttpResponseRedirect(reverse("core:practice"))
     return render(request, "core/home.html")
+
+
+@login_required
+def practice(request):
+    p = request.user.practice_set.first()
+    context = {
+        "practice": p,
+        "next_exercise": p.next_exercise(user=request.user),
+    }
+    return render(request, "core/practice.html", context=context)
 
 
 @login_required

@@ -1,4 +1,5 @@
 import calendar
+import datetime
 
 from django.conf import settings
 from django.db import models
@@ -29,6 +30,16 @@ class Practice(BaseModel):
     @cached_property
     def students_id(self):
         return self.users.all().values_list("id", flat=True)
+
+    @property
+    def exercise_today(self):
+        today = datetime.date.today().weekday()
+        return self.exercise_set.filter(day=today).order_by("pk")
+
+    def next_exercise(self, user):
+        today = datetime.date.today()
+        already_finished = user.checklist_set.filter(date__date=today).values_list("exercise_id")
+        return self.exercise_set.filter(day=today.weekday()).exclude(id__in=already_finished).order_by("pk").first()
 
 
 class Exercise(BaseModel):
