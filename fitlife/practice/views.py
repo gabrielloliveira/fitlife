@@ -1,10 +1,12 @@
-from datetime import datetime, date
+import datetime
+from datetime import date
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseNotFound
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from fitlife.core.decorators import admin_required
@@ -115,41 +117,16 @@ def edit_exercise(request, uuid, uuid_exercise):
 
 @require_POST
 @login_required
-def start_frequency(request, uuid):
-    user = request.user
-    queryset = Frequency.objects.filter(user=user, date_start__gte=date.today())
-    if queryset.exist():
-        return HttpResponseNotFound("Frequencia já registrada")
-
-    Frequency.objects.create(user=user, date_start=datetime.now())
-    return HttpResponse("ok")
-
-
-@login_required
-def frequency_is_active(request, uuid):
-    user = request.user
-    queryset = Frequency.objects.filter(user=user, date_start__gte=date.today())
-    if not queryset.exist():
-        return HttpResponseNotFound("Frequencia não existe")
-
-    return HttpResponse("ok")
+def start_frequency(request):
+    Frequency.objects.create(user=request.user, date_start=timezone.now())
+    return HttpResponseRedirect(reverse("core:practice"))
 
 
 @require_POST
 @login_required
-def end_frequency(request, uuid):
-    user = request.user
-    frequency = get_object_or_404(Frequency, user=user, date_start__gte=date.today())
-    frequency.date_end = datetime.now()
-    frequency.save()
-    return HttpResponse("ok")
-
-
-@login_required
-def count_frequency(request, uuid):
-    user = request.user
-    frequency_count = Frequency.objects.filter(user=user, date_start__gte=date.today(), date_end__isnull=True).count()
-    return HttpResponse(str(frequency_count))
+def end_frequency(request):
+    Frequency.objects.filter(user=request.user, date_start__date=timezone.now().date()).update(date_end=timezone.now())
+    return HttpResponseRedirect(reverse("core:practice"))
 
 
 @login_required

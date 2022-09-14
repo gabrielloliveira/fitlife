@@ -4,6 +4,7 @@ import uuid
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from fitlife.core.managers import UserManager
@@ -56,3 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
             return None
         last_frequency = self.frequency_set.order_by("-date_start").first()
         return last_frequency.date_start if last_frequency else "-"
+
+    @property
+    def is_online(self):
+        return self.frequency_set.filter(date_start__date=timezone.now().date(), date_end__isnull=True).exists()

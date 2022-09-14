@@ -25,7 +25,7 @@
         <div class="col-auto my-auto">
           <div class="h-100">
             <h5 class="mb-1">
-              53
+              {{ online_users }}
             </h5>
             <p class="mb-0 font-weight-bold text-sm">
               Pessoas na Academia
@@ -36,9 +36,24 @@
           <div class="nav-wrapper position-relative end-0">
             <ul class="nav nav-pills nav-fill p-1" role="tablist">
               <li class="nav-item">
-                <a class="mb-0 px-1 py-1 btn btn-primary d-flex align-items-center justify-content-center ">
-                  <span class="ms-2">Fazer Check-in</span>
-                </a>
+
+                {% if request.user.is_online %}
+                  <form action="{% url 'practice:end-frequency' %}" class="nav-item" method="post">
+                    {% csrf_token %}
+                    <button
+                      class="mb-0 px-1 py-1 btn btn-primary d-flex align-items-center justify-content-center w-100">
+                      <span class="ms-2">Fazer Check-out</span>
+                    </button>
+                  </form>
+                {% else %}
+                  <form action="{% url 'practice:start-frequency' %}" class="nav-item" method="post">
+                    {% csrf_token %}
+                    <button
+                      class="mb-0 px-1 py-1 btn btn-primary d-flex align-items-center justify-content-center w-100">
+                      <span class="ms-2">Fazer Check-in</span>
+                    </button>
+                  </form>
+                {% endif %}
               </li>
             </ul>
           </div>

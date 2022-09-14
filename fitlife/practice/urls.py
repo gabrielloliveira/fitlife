@@ -14,7 +14,5 @@ urlpatterns = [
     path("<uuid:uuid>/detalhes/<uuid:uuid_exercise>/editar/", views.edit_exercise, name="edit-exercise"),
     path("frequencia/iniciar/", views.start_frequency, name="start-frequency"),
     path("frequencia/finalizar/", views.end_frequency, name="end-frequency"),
-    path("frequencia/active/", views.frequency_is_active, name="is-active-frequency"),
-    path("frequencia/count/", views.count_frequency, name="count-frequency"),
     path("exercicio/<uuid:uuid>/check/", views.check_exercise, name="check"),
 ]

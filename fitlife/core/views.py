@@ -5,11 +5,13 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from fitlife.core.decorators import admin_required
 from fitlife.core.forms import UserForm, StudentForm
 from fitlife.core.models import User
+from fitlife.practice.models import Frequency
 
 login = LoginView.as_view(template_name="core/login.html", redirect_authenticated_user=True)
 logout = LogoutView.as_view()
@@ -26,6 +28,7 @@ def home(request):
 def practice(request):
     p = request.user.practice_set.first()
     context = {
+        "online_users": Frequency.objects.filter(date_start__date=timezone.now().date(), date_end__isnull=True).count(),
         "practice": p,
         "next_exercise": p.next_exercise(user=request.user),
     }
