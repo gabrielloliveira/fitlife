@@ -50,7 +50,9 @@
                 <div class="card-body">
                   <form role="form" method="post" action=".">
                     {% csrf_token %}
-                    {{ form.errors }}
+                    {% for e in form.non_field_errors %}
+                      <p class="text-danger">{{ e|escape }}</p>
+                    {% endfor %}
                     <div class="mb-3">
                       <input type="email" name="username" class="form-control form-control-lg" placeholder="Email" aria-label="Email">
                     </div>
