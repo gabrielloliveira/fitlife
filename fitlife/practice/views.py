@@ -70,7 +70,7 @@ def detail_practice(request, uuid):
     practice = get_object_or_404(Practice, uuid=uuid)
     context = {
         "practice": practice,
-        "exercises": practice.exercise_set.order_by("-day"),
+        "exercises": practice.exercise_set.order_by("day"),
         "form": ExerciseForm(),
     }
     return render(request, "practice/detail.html", context=context)

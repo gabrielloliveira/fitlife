@@ -145,7 +145,7 @@ class StudentAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated:
             return User.objects.none()
 
-        qs = User.objects.only_students()
+        qs = User.objects.filter(type=User.TYPE_STUDENT, is_active=True)
 
         if self.q:
             qs = qs.filter(name__icontains=self.q)
