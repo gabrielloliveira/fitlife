@@ -48,10 +48,13 @@ def home(request):
     list_days = []
     list_frequency = []
     count = 0
+
+    seven_days_ago = today - timedelta(days=6)
     while count < 7:
-        list_days.append(f"{today.day}/{today.month}")
-        list_frequency.append(Frequency.objects.filter(date_start__date=today).count())
-        today -= timedelta(days=1)
+        list_days.append(f"{seven_days_ago.day}/{seven_days_ago.month}")
+        list_frequency.append(Frequency.objects.filter(date_start__date=seven_days_ago).count())
+        seven_days_ago += timedelta(days=1)
+        count += 1
 
     context = {
         "today_students": Frequency.objects.filter(date_start__date=timezone.now().date()).count(),
@@ -68,9 +71,7 @@ def home(request):
 def practice(request):
     p = request.user.practice_set.first()
     context = {
-        "online_users": Frequency.objects.filter(
-            date_start__date=timezone.now().date(), date_end__isnull=True
-        ).count(),
+        "online_users": Frequency.objects.filter(date_start__date=timezone.now().date(), date_end__isnull=True).count(),
         "practice": p,
         "next_exercise": p.next_exercise(user=request.user),
     }
