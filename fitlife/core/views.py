@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from dal import autocomplete
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -21,14 +23,54 @@ logout = LogoutView.as_view()
 def home(request):
     if not request.user.is_admin:
         return HttpResponseRedirect(reverse("core:practice"))
-    return render(request, "core/home.html")
+
+    today = timezone.now().date()
+    yesterday = today - timedelta(days=1)
+
+    today_students = Frequency.objects.filter(date_start__date=today).count()
+    yesterday_students = Frequency.objects.filter(date_start__date=yesterday).count()
+    percent_frequency = (today_students * 100 / yesterday_students) if yesterday_students else 0
+    percent_frequency *= -1 if yesterday_students > today_students else 1
+    percent_frequency -= 100 if percent_frequency > 0 else 0
+
+    last_month = today - timedelta(days=30)
+    this_month_students = User.objects.filter(
+        type=User.TYPE_STUDENT,
+        created_at__month=today.month,
+        created_at__year=today.year,
+    ).count()
+    last_month_students = User.objects.filter(
+        type=User.TYPE_STUDENT,
+        created_at__month=last_month.month,
+        created_at__year=last_month.year,
+    ).count()
+
+    list_days = []
+    list_frequency = []
+    count = 0
+    while count < 7:
+        list_days.append(f"{today.day}/{today.month}")
+        list_frequency.append(Frequency.objects.filter(date_start__date=today).count())
+        today -= timedelta(days=1)
+
+    context = {
+        "today_students": Frequency.objects.filter(date_start__date=timezone.now().date()).count(),
+        "percent_frequency": percent_frequency,
+        "this_month_students": this_month_students,
+        "last_month_students": last_month_students,
+        "list_days": list_days,
+        "list_frequency": list_frequency,
+    }
+    return render(request, "core/home.html", context=context)
 
 
 @login_required
 def practice(request):
     p = request.user.practice_set.first()
     context = {
-        "online_users": Frequency.objects.filter(date_start__date=timezone.now().date(), date_end__isnull=True).count(),
+        "online_users": Frequency.objects.filter(
+            date_start__date=timezone.now().date(), date_end__isnull=True
+        ).count(),
         "practice": p,
         "next_exercise": p.next_exercise(user=request.user),
     }
